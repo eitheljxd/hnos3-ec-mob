@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import 'package:provider/provider.dart';
 import 'package:productos_app/providers/product_form_provider.dart';
-
+import 'package:productos_app/models/size.dart';
 import 'package:productos_app/services/services.dart';
 
 import 'package:productos_app/ui/input_decorations.dart';
@@ -104,6 +106,26 @@ class _ProductScreenBody extends StatelessWidget {
 }
 
 class _ProductForm extends StatelessWidget {
+  static List<Size> _sizes = [
+    Size(id: 1, name: "2"),
+    Size(id: 2, name: "4"),
+    Size(id: 3, name: "6"),
+    Size(id: 4, name: "8"),
+    Size(id: 5, name: "10"),
+    Size(id: 6, name: "12"),
+    Size(id: 7, name: "14"),
+    Size(id: 8, name: "16"),
+    Size(id: 9, name: "Standart"),
+    Size(id: 10, name: "S"),
+    Size(id: 11, name: "M"),
+    Size(id: 12, name: "L"),
+    Size(id: 13, name: "XL"),
+    Size(id: 14, name: "XXL"),
+    Size(id: 15, name: "XXXL"),
+  ];
+  final _items =
+      _sizes.map((size) => MultiSelectItem<Size>(size, size.name)).toList();
+
   @override
   Widget build(BuildContext context) {
     final productForm = Provider.of<ProductFormProvider>(context);
@@ -150,12 +172,47 @@ class _ProductForm extends StatelessWidget {
                     hintText: '\$150', labelText: 'Precio:'),
               ),
               SizedBox(height: 30),
+              MultiSelectDialogField(
+                initialValue: [product.sizes],
+                searchable: true,
+                items: _items,
+                title: Text("Tallas disponibles"),
+                selectedColor: Colors.indigo,
+                decoration: BoxDecoration(
+                  color: Colors.indigo.withOpacity(0.1),
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                  border: Border.all(
+                    color: Colors.indigo,
+                    width: 2,
+                  ),
+                ),
+                buttonIcon: Icon(
+                  Icons.straighten,
+                  color: Colors.indigo,
+                ),
+                buttonText: Text(
+                  "Selecciona tallas",
+                  style: TextStyle(
+                    color: Colors.indigo[800],
+                    fontSize: 16,
+                  ),
+                ),
+                onConfirm: (results) {
+                  product.sizes = results
+                      .asMap()
+                      .entries
+                      .map((entry) => Size(name: entry.value.toString()))
+                      .toList();
+                  print(product.sizes.toString());
+                },
+              ),
+              SizedBox(height: 30),
               SwitchListTile.adaptive(
                   value: product.available,
                   title: Text('Disponible'),
                   activeColor: Colors.indigo,
                   onChanged: productForm.updateAvailability),
-              SizedBox(height: 30)
+              SizedBox(height: 30),
             ],
           ),
         ),

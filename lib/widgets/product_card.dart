@@ -21,7 +21,7 @@ class ProductCard extends StatelessWidget {
             _BackgroundImage(product.picture),
             _ProductDetails(
               title: product.name,
-              subTitle: product.id!,
+              subTitle: product.sizes.toString()!,
             ),
             Positioned(top: 0, right: 0, child: _PriceTag(product.price)),
             if (!product.available)

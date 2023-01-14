@@ -36,7 +36,7 @@ class ProductsService extends ChangeNotifier {
         .toList();
     this.isLoading = false;
     notifyListeners();
-    print(this.products[0].id);
+    print(this.products[products.length - 1].sizes);
     return this.products;
   }
 
@@ -47,6 +47,9 @@ class ProductsService extends ChangeNotifier {
     if (product.id == null) {
       // Es necesario crear
       product.createdBy = userLogin;
+      print(userLogin.toJson());
+      print(product.toJson());
+
       await this.createProduct(product);
     } else {
       // Actualizar
