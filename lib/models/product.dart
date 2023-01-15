@@ -25,19 +25,20 @@ class Product {
   double price;
   String? id;
   User? createdBy;
-  List<Size>? sizes;
+  List<String>? sizes;
 
   factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
   factory Product.fromMap(Map<String, dynamic> json) => Product(
-      available: json["available"],
-      name: json["name"],
-      picture: json["picture"],
-      price: json["price"].toDouble(),
-      createdBy: json["createdBy"],
-      sizes: json["sizes"]);
+        available: json["available"],
+        name: json["name"],
+        picture: json["picture"],
+        price: json["price"].toDouble(),
+        createdBy: json["createdBy"],
+        sizes: List<String>.from(json["sizes"].map((x) => x)),
+      );
 
   factory Product.fromMapFirebase(String id, Map<String, dynamic> json) =>
       Product(
@@ -45,6 +46,7 @@ class Product {
           name: json["name"],
           picture: json["picture"],
           price: json["price"].toDouble(),
+          sizes: List<String>.from(json["sizes"].map((x) => x)),
           id: id);
 
   Map<String, dynamic> toMap() => {
@@ -53,7 +55,7 @@ class Product {
         "picture": picture,
         "price": price,
         "createdBy": createdBy?.toMap(),
-        "sizes": getListMap(sizes!)
+        "sizes": List<dynamic>.from(sizes!.map((x) => x)),
       };
 
   Product copy() => Product(
@@ -64,15 +66,4 @@ class Product {
       createdBy: this.createdBy,
       id: this.id,
       sizes: this.sizes);
-
-  dynamic getListMap(List<dynamic> items) {
-    if (items == null) {
-      return null;
-    }
-    List<Map<String, dynamic>> dayItems = [];
-    items.forEach((element) {
-      dayItems.add(element.toMap());
-    });
-    return dayItems;
-  }
 }

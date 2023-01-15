@@ -13,7 +13,7 @@ class ProductCard extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.only(top: 30, bottom: 50),
         width: double.infinity,
-        height: 300,
+        height: 200,
         decoration: _cardBorders(),
         child: Stack(
           alignment: Alignment.bottomLeft,
@@ -145,7 +145,7 @@ class _BackgroundImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       child: Container(
         width: double.infinity,
-        height: 300,
+        height: 200,
         child: url == null
             ? Image(image: AssetImage('assets/no-image.png'), fit: BoxFit.cover)
             : FadeInImage(

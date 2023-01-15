@@ -106,25 +106,24 @@ class _ProductScreenBody extends StatelessWidget {
 }
 
 class _ProductForm extends StatelessWidget {
-  static List<Size> _sizes = [
-    Size(id: 1, name: "2"),
-    Size(id: 2, name: "4"),
-    Size(id: 3, name: "6"),
-    Size(id: 4, name: "8"),
-    Size(id: 5, name: "10"),
-    Size(id: 6, name: "12"),
-    Size(id: 7, name: "14"),
-    Size(id: 8, name: "16"),
-    Size(id: 9, name: "Standart"),
-    Size(id: 10, name: "S"),
-    Size(id: 11, name: "M"),
-    Size(id: 12, name: "L"),
-    Size(id: 13, name: "XL"),
-    Size(id: 14, name: "XXL"),
-    Size(id: 15, name: "XXXL"),
+  static List<String> _sizes = [
+    "2",
+    "4",
+    "6",
+    "8",
+    "10",
+    "12",
+    "14",
+    "16",
+    "Standart",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
   ];
   final _items =
-      _sizes.map((size) => MultiSelectItem<Size>(size, size.name)).toList();
+      _sizes.map((size) => MultiSelectItem<String>(size, size)).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -173,7 +172,7 @@ class _ProductForm extends StatelessWidget {
               ),
               SizedBox(height: 30),
               MultiSelectDialogField(
-                initialValue: [product.sizes],
+                initialValue: product.sizes != null ? product.sizes! : [],
                 searchable: true,
                 items: _items,
                 title: Text("Tallas disponibles"),
@@ -198,12 +197,7 @@ class _ProductForm extends StatelessWidget {
                   ),
                 ),
                 onConfirm: (results) {
-                  product.sizes = results
-                      .asMap()
-                      .entries
-                      .map((entry) => Size(name: entry.value.toString()))
-                      .toList();
-                  print(product.sizes.toString());
+                  product.sizes = results.map((e) => e.toString()).toList();
                 },
               ),
               SizedBox(height: 30),
